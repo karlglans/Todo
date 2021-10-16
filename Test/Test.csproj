@@ -19,4 +19,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Todo\Todo.csproj" />
+  </ItemGroup>
+
 </Project>
