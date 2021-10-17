@@ -77,5 +77,85 @@ namespace Test.Data
             int nonexistentId = todo2.TodoId + 10; // since we did not add more the 3 persons
             Assert.Null(todoItems.FindById(nonexistentId));
         }
+
+        [Fact]
+        public void FindByDoneStatus_whenGivenMatchingTodos()
+        {
+            Todo.Model.Todo todo = todoItems.CreateTodo(someTodoDesc);
+            todo.Done = true;
+
+            Todo.Model.Todo todo2 = todoItems.CreateTodo(someTodoDesc);
+            todo2.Done = true;
+
+            Todo.Model.Todo todo3 = todoItems.CreateTodo(someTodoDesc);
+            todo3.Done = false;
+
+            // assert: 2 of 3 todos done
+            var doneTodos = todoItems.FindByDoneStatus(true);
+            Assert.Equal(2, doneTodos.Length);
+        }
+
+        [Fact]
+        public void FindByDoneStatus_whenGivenTodosWithAssignee()
+        {
+            People people = new People();
+            Person person = people.CreatePerson("first", "last");
+            Todo.Model.Todo todo = todoItems.CreateTodo(someTodoDesc);
+            todo.Assignee = person;
+
+            Todo.Model.Todo todo2 = todoItems.CreateTodo(someTodoDesc);
+            todo2.Assignee = person;
+
+            // unAssigned todo
+            todoItems.CreateTodo(someTodoDesc);
+
+            // assert: 2 of 3 todos assigned to this person
+            var todoArr = todoItems.FindByAssignee(person.PersonId);
+            Assert.Equal(2, todoArr.Length);
+        }
+
+        [Fact]
+        public void FindByDoneStatus_whenGivenTodosWithAssigneePerson()
+        {
+            People people = new People();
+            Person person = people.CreatePerson("first", "last");
+            Todo.Model.Todo todo = todoItems.CreateTodo(someTodoDesc);
+            todo.Assignee = person;
+
+            Todo.Model.Todo todo2 = todoItems.CreateTodo(someTodoDesc);
+            todo2.Assignee = person;
+
+            // unAssigned todo
+            todoItems.CreateTodo(someTodoDesc);
+            todoItems.CreateTodo(someTodoDesc);
+
+            // assert: 2 of 4 todos assigned to this person
+            var todoArr = todoItems.FindByAssignee(person);
+            Assert.Equal(2, todoArr.Length);
+        }
+
+        [Fact]
+        public void FindByDoneStatus_whenGivenSomeUnassignedTodos()
+        {
+            People people = new People();
+            Person person = people.CreatePerson("first", "last");
+
+            todoItems.CreateTodo(someTodoDesc); // first
+
+            Todo.Model.Todo todo = todoItems.CreateTodo(someTodoDesc);
+            todo.Assignee = person;
+
+            Todo.Model.Todo todo2 = todoItems.CreateTodo(someTodoDesc);
+            todo2.Assignee = person;
+
+            // 2 more unAssigned todos
+            
+            todoItems.CreateTodo(someTodoDesc);
+            todoItems.CreateTodo(someTodoDesc);
+
+            // assert: 3 of 5 todos unassigned
+            var todoArr = todoItems.FindUnassignedTodoItems();
+            Assert.Equal(3, todoArr.Length);
+        }
     }
 }
