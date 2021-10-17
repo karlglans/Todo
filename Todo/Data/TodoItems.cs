@@ -48,5 +48,40 @@ namespace Todo.Data
         {
             Array.Resize<Todoo>(ref todoItems, 0);
         }
+
+        public Todoo[] FindByDoneStatus(bool doneStatus)
+        {
+            List<Todoo> found = new List<Todoo>();
+            foreach (Todoo todo in todoItems)
+            {
+                if (todo.Done == doneStatus) found.Add(todo);
+            }
+            return found.ToArray();
+        }
+
+        public Todoo[] FindByAssignee(int personId)
+        {
+            List<Todoo> found = new List<Todoo>();
+            foreach (Todoo todo in todoItems)
+            {
+                if (todo.Assignee != null && todo.Assignee.PersonId == personId) found.Add(todo);
+            }
+            return found.ToArray();
+        }
+
+        public Todoo[] FindByAssignee(Person person)
+        {
+            return FindByAssignee(person.PersonId);
+        }
+
+        public Todoo[] FindUnassignedTodoItems()
+        {
+            List<Todoo> found = new List<Todoo>();
+            foreach (Todoo todo in todoItems)
+            {
+                if (todo.Assignee == null) found.Add(todo);
+            }
+            return found.ToArray();
+        }
     }
 }
