@@ -157,5 +157,30 @@ namespace Test.Data
             var todoArr = todoItems.FindUnassignedTodoItems();
             Assert.Equal(3, todoArr.Length);
         }
+
+        [Fact]
+        public void RemoveTodo_whenGivenAnExistingTodo()
+        {
+            Todo.Model.Todo todo1 = todoItems.CreateTodo(someTodoDesc);
+            Todo.Model.Todo todo2 = todoItems.CreateTodo(someTodoDesc);
+            Todo.Model.Todo todo3 = todoItems.CreateTodo(someTodoDesc);
+
+            bool wasRemoved = todoItems.RemoveTodo(todo2);
+            Assert.True(wasRemoved);
+            Assert.Equal(2, todoItems.Size());
+        }
+
+        [Fact]
+        public void RemoveTodo_whenGivenAnAlreadyRemovedTodo()
+        {
+            // arrange: adding 3 todos, removing todo2
+            todoItems.CreateTodo(someTodoDesc);
+            Todo.Model.Todo todo2 = todoItems.CreateTodo(someTodoDesc);
+            todoItems.CreateTodo(someTodoDesc);
+            todoItems.RemoveTodo(todo2); // remove first time
+            // act: removing todo a 2nd time
+            bool wasRemovedAgain = todoItems.RemoveTodo(todo2); // remove second time
+            Assert.False(wasRemovedAgain);
+        }
     }
 }

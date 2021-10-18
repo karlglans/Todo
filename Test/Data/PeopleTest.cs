@@ -77,5 +77,31 @@ namespace Test.Data
             int nonexistentId = person2.PersonId + 10; // since we did not add more the 3 persons
             Assert.Null(people.FindById(nonexistentId));
         }
+
+        [Fact]
+        public void RemovePerson_whenGivenAnExistingTodo()
+        {
+            // arrange: adding 3 persons
+            people.CreatePerson(someFirstName, someLastName);
+            Person item2 = people.CreatePerson(someFirstName, someLastName);
+            people.CreatePerson(someFirstName, someLastName);
+            // act reove 2nd item
+            bool wasRemoved = people.RemovePerson(item2);
+            Assert.True(wasRemoved);
+            Assert.Equal(2, people.Size());
+        }
+
+        [Fact]
+        public void RemovePerson_whenGivenAnAlreadyRemovedTodo()
+        {
+            // arrange: adding 3 persons
+            people.CreatePerson(someFirstName, someLastName);
+            Person item2 = people.CreatePerson(someFirstName, someLastName);
+            people.CreatePerson(someFirstName, someLastName);
+            people.RemovePerson(item2); // remove first time
+            // act: removing todo a 2nd time
+            bool wasRemovedAgain = people.RemovePerson(item2); // remove second time
+            Assert.False(wasRemovedAgain);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Todo.Model;
 
 namespace Todo.Data
@@ -49,6 +50,13 @@ namespace Todo.Data
         public void Clear()
         {
             Array.Resize<Person>(ref People.people, 0);
+        }
+
+        public bool RemovePerson(Person person)
+        {
+            Person found = FindById(person.PersonId);
+            people = people.Where(val => val.PersonId != person.PersonId).ToArray();
+            return found != null;
         }
     }
 }
