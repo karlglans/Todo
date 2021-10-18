@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Todo.Model;
 using Todoo = Todo.Model.Todo;
 
@@ -82,6 +83,13 @@ namespace Todo.Data
                 if (todo.Assignee == null) found.Add(todo);
             }
             return found.ToArray();
+        }
+
+        public bool RemoveTodo(Todoo todo)
+        {
+            Todoo found = FindById(todo.TodoId);
+            todoItems = todoItems.Where(val => val.TodoId != todo.TodoId).ToArray();
+            return found != null;
         }
     }
 }
