@@ -5,6 +5,7 @@ using Todo.Model;
 
 namespace Test.Data
 {
+    [Collection("Serial")]
     public class PeopleTest
     {
         const string someFirstName = "someFirstName";

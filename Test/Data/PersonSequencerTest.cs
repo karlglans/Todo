@@ -4,6 +4,7 @@ using Todo.Data;
 
 namespace Test.Data
 {
+    [Collection("Serial")]
     public class PersonSequencerTest
     {
         public PersonSequencerTest()

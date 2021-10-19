@@ -4,6 +4,7 @@ using Todo.Model;
 
 namespace Test.Model
 {
+    [Collection("Serial")]
     public class TodoTest
     {
         private int someSerial = 1;
