@@ -5,6 +5,7 @@ using Todo.Data;
 
 namespace Test.Data
 {
+    [Collection("Serial")]
     public class TodoItemsTest
     {
         TodoItems todoItems;
